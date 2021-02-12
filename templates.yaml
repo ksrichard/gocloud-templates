@@ -5,6 +5,3 @@ projects:
   - name: microservice
     title: Micro-Service
     folder: microservices/
-template_yaml_file_names:
-  - template.yaml
-  - template.yml
