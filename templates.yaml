@@ -1,0 +1,10 @@
+projects:
+  - name: infrastructure
+    title: Infrastructure
+    folder: infra/
+  - name: microservice
+    title: Micro-Service
+    folder: microservices/
+template_yaml_file_names:
+  - template.yaml
+  - template.yml

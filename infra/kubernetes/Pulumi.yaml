@@ -1,0 +1,3 @@
+name: {{project_name}}
+runtime: nodejs
+description: Kubernetes based infrastructure

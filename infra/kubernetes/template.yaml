@@ -1,0 +1,71 @@
+name: Kubernetes Infrastructure
+description: Kubernetes based infrastructure including logging, monitoring and database
+requirements:
+  - kubectl
+  - npm
+
+properties:
+  - name: project_name
+    type: string
+    description: Name of your project
+    required: true
+  - name: host
+    type: string
+    description: Host/Domain name of the application (need for ingress rules, use "localhost" for local development)
+    required: true
+  - name: use_vpn
+    type: boolean
+    description: Use VPN to access cluster resources (not just exposed ones)
+    required: true
+  - name: use_db
+    type: boolean
+    description: Use and configgure database access
+    required: true
+
+#    Docker registry
+  - name: create_image_pull_secret
+    type: boolean
+    description: Create image pull secret
+    required: true
+    requires:
+      - registry_url
+      - registry_username
+      - registry_password
+  - name: registry_url
+    type: string
+    description: Docker registry URL
+    required: false
+  - name: registry_username
+    type: string
+    description: Docker registry username
+    required: false
+  - name: registry_password
+    type: string
+    description: Docker registry password
+    required: false
+
+#    DB
+  - name: install_self_hosted_db
+    type: boolean
+    description: Install self hosted MySQL database
+    required: true
+    requires:
+      - db_name
+      - db_username
+      - db_password
+  - name: db_url
+    type: string
+    description: Database server URL (blank if using self hosted DB)
+    required: false
+  - name: db_name
+    type: string
+    description: Database name
+    required: false
+  - name: db_username
+    type: string
+    description: Database username
+    required: false
+  - name: db_password
+    type: string
+    description: Database password
+    required: false
