@@ -1,7 +1,7 @@
 projects:
   - name: infrastructure
     title: Infrastructure
-    folder: infra/
+    folder: infra
 #  - name: microservice
 #    title: Micro-Service
-#    folder: microservices/
+#    folder: microservices
