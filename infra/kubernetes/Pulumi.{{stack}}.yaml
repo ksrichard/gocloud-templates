@@ -1,6 +1,6 @@
 config:
   app:useVPN: {{use_vpn}}
-
+  app:host: "{{host}}"
   {{#use_db}}
   app:selfHostedDb: {{install_self_hosted_db}}
   app:dbUsername: "{{db_username}}"
@@ -8,9 +8,6 @@ config:
   app:dbUrl: "{{db_url}}"
   app:dbPort: 3306
   {{/use_db}}
-
-  app:host: "{{host}}"
-
   {{#create_image_pull_secret}}
   app:registryUrl: "{{registry_url}}"
   app:registryUsername: "{{registry_username}}"
