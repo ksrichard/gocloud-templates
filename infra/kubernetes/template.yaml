@@ -19,7 +19,7 @@ properties:
     required: true
   - name: use_db
     type: boolean
-    description: Use and configgure database access
+    description: Use and configure database access
     required: true
 
 #    Docker registry
