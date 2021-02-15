@@ -31,7 +31,7 @@ if (useVPN) {
             namespace: controlPlaneNamespaceName,
             chart: "openvpn",
             version: "4.2.3",
-            fetchOpts: {repo: "https://kubernetes-charts.storage.googleapis.com/"},
+            fetchOpts: {repo: "https://charts.helm.sh/stable"},
             values: {
                 service: {
                     externalPort: 4444,
@@ -51,7 +51,7 @@ const nginx = new k8s.helm.v3.Chart("nginx",
         namespace: controlPlaneNamespaceName,
         chart: "nginx-ingress",
         version: "1.24.4",
-        fetchOpts: {repo: "https://kubernetes-charts.storage.googleapis.com/"},
+        fetchOpts: {repo: "https://charts.helm.sh/stable"},
         values: {controller: {publishService: {enabled: true}}},
         },
 );
@@ -61,7 +61,7 @@ const metricsServer = new k8s.helm.v3.Chart("metrics-server",
         namespace: controlPlaneNamespaceName,
         chart: "metrics-server",
         version: "2.11.2",
-        fetchOpts: {repo: "https://kubernetes-charts.storage.googleapis.com/"},
+        fetchOpts: {repo: "https://charts.helm.sh/stable"},
         values: {
             args: [
                 "/metrics-server",

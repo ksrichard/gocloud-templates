@@ -35,6 +35,8 @@ properties:
     type: boolean
     description: Configure database access
     required: true
+    requires:
+      - install_self_hosted_db
 
 #    Docker registry
   - name: create_image_pull_secret
@@ -62,7 +64,7 @@ properties:
   - name: install_self_hosted_db
     type: boolean
     description: Install self hosted MySQL database
-    required: true
+    required: false
     requires:
       - db_name
       - db_username
