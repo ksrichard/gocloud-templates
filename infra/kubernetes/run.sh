@@ -1,1 +1,1 @@
-pulumi up --yes
+pulumi up

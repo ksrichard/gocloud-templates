@@ -8,8 +8,6 @@ import {Htpasswd, HtpasswdAlgorithm} from 'pulumi-htpasswd';
 const config = new pulumi.Config("app");
 export const host = config.require("host");
 const useVPN = config.requireBoolean("useVPN");
-const httpBasicAuthUsername = config.require("httpBasicAuthUsername");
-const httpBasicAuthPassword = config.require("httpBasicAuthPassword");
 
 {{#create_image_pull_secret}}
 export const registryUrl = config.require("registryUrl");
@@ -41,14 +39,6 @@ if (useVPN) {
             }
         },
     );
-} else {
-    credentials = new Htpasswd('credentials', {
-        algorithm: HtpasswdAlgorithm.Bcrypt,
-        entries: [{
-            username: httpBasicAuthUsername,
-            password: httpBasicAuthPassword,
-        },],
-    });
 }
 
 let ingressAnnotations: {[k: string]: any} = {
