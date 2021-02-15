@@ -40,7 +40,7 @@ properties:
     description: Docker registry username
     required: false
   - name: registry_password
-    type: string
+    type: password
     description: Docker registry password
     required: false
 
@@ -66,6 +66,6 @@ properties:
     description: Database username
     required: false
   - name: db_password
-    type: string
+    type: password
     description: Database password
     required: false
