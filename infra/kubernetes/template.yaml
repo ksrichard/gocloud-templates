@@ -3,6 +3,11 @@ description: Kubernetes based infrastructure including logging, monitoring and d
 requirements:
   - kubectl
   - npm
+install_script:
+  - os: darwin
+    script: install.sh
+  - os: linux
+    script: install.sh
 
 properties:
   - name: project_name
