@@ -9,6 +9,7 @@
         "@pulumi/kubernetesx": "^0.1.1",
         "@pulumi/pulumi": "^2.0.0",
         "@timmyers/pulumi-k8s-metrics-server": "latest",
-        "js-base64": "latest"
+        "js-base64": "latest",
+        "pulumi-htpasswd": "1.2.0"
     }
 }
