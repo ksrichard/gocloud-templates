@@ -10,6 +10,10 @@ install_script:
     script: install.sh
 
 properties:
+  - name: stack
+    type: string
+    description: Pulumi stack name
+    required: true
   - name: project_name
     type: string
     description: Name of your project
