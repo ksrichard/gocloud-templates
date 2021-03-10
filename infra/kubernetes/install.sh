@@ -4,6 +4,6 @@ pulumi login --local
 {{^pulumi_local_login}}
 pulumi login
 {{/pulumi_local_login}}
-pulumi stack init {{stack}}
-pulumi stack select {{stack}}
+pulumi stack init {{pulumi_stack_name}}
+pulumi stack select {{pulumi_stack_name}}
 npm install

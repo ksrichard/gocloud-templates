@@ -20,13 +20,13 @@ down_script:
     script: down.sh
 
 properties:
-  - name: stack
+  - name: pulumi_stack_name
     type: string
     description: Pulumi stack name
     required: true
-  - name: project_name
+  - name: pulumi_project_name
     type: string
-    description: Name of your project
+    description: Name of your Pulumi project
     required: true
   - name: host
     type: string
