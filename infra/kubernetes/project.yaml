@@ -8,11 +8,16 @@ install_script:
     script: install.sh
   - os: linux
     script: install.sh
-run_script:
+up_script:
   - os: darwin
-    script: run.sh
+    script: up.sh
   - os: linux
-    script: run.sh
+    script: up.sh
+down_script:
+  - os: darwin
+    script: down.sh
+  - os: linux
+    script: down.sh
 
 properties:
   - name: stack
