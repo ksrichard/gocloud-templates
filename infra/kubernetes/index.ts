@@ -10,7 +10,6 @@ const config = new pulumi.Config("app");
 {{#host.IsPulumiOutput}}
 const host = new pulumi.StackReference(`{{host.PulumiStackReference}}/${pulumi.getStack()}`).requireOutput("{{host.PulumiOutputVar}}").apply(v => `${v}`);
 {{/host.IsPulumiOutput}}
-
 {{^host.IsPulumiOutput}}
 export const host = config.require("host");
 {{/host.IsPulumiOutput}}
