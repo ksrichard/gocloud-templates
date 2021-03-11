@@ -6,16 +6,24 @@ import {Namespace} from "@pulumi/kubernetes/core/v1";
 import {Htpasswd, HtpasswdAlgorithm} from 'pulumi-htpasswd';
 
 const config = new pulumi.Config("app");
+
+{{#host.IsPulumiOutput}}
+const host = new pulumi.StackReference(`{{host.PulumiStackReference}}/${pulumi.getStack()}`).requireOutput("{{host.PulumiOutputVar}}").apply(v => `${v}`);
+{{/host.IsPulumiOutput}}
+
+{{^host.IsPulumiOutput}}
 export const host = config.require("host");
+{{/host.IsPulumiOutput}}
+
 const useVPN = config.requireBoolean("useVPN");
 
-{{#create_image_pull_secret}}
+{{#create_image_pull_secret.Value}}
 export const registryUrl = config.require("registryUrl");
 export const registryUsername = config.require("registryUsername");
 export const registryPassword = config.require("registryPassword");
 export const imagePullSecretName: string = "image-pull-secret";
 const secret = common.createImagePullSecret(imagePullSecretName, registryUsername, registryPassword, registryUrl);
-{{/create_image_pull_secret}}
+{{/create_image_pull_secret.Value}}
 
 const controlPlaneNs = new Namespace("control");
 export const controlPlaneNamespaceName = controlPlaneNs.metadata.name;
@@ -140,7 +148,7 @@ const kibana = new k8s.helm.v3.Chart("kibana",
     {dependsOn: [elasticSearch]}
 );
 
-{{#use_db}}
+{{#use_db.Value}}
 // DB
 const selfHostedDb = config.requireBoolean("selfHostedDb");
 export const dbUrl = pulumi.interpolate `${config.require("dbUrl")}`;
@@ -203,7 +211,7 @@ const appsDbService = new k8s.core.v1.Service("db-mysql", {
 });
 
 export const dbServiceName = appsDbService.metadata.name;
-{{/use_db}}
+{{/use_db.Value}}
 
 
 

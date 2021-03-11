@@ -1,15 +1,17 @@
 config:
-  app:useVPN: {{use_vpn}}
-  app:host: "{{host}}"
-  {{#use_db}}
-  app:selfHostedDb: {{install_self_hosted_db}}
-  app:dbUsername: "{{db_username}}"
-  app:dbPassword: "{{db_password}}"
-  app:dbUrl: "{{db_url}}"
+  app:useVPN: {{use_vpn.Value}}
+  {{^host.IsPulumiOutput}}
+  app:host: "{{host.Value}}"
+  {{/host.IsPulumiOutput}}
+  {{#use_db.Value}}
+  app:selfHostedDb: {{install_self_hosted_db.Value}}
+  app:dbUsername: "{{db_username.Value}}"
+  app:dbPassword: "{{db_password.Value}}"
+  app:dbUrl: "{{db_url.Value}}"
   app:dbPort: 3306
-  {{/use_db}}
-  {{#create_image_pull_secret}}
-  app:registryUrl: "{{registry_url}}"
-  app:registryUsername: "{{registry_username}}"
-  app:registryPassword: "{{registry_password}}"
-  {{/create_image_pull_secret}}
+  {{/use_db.Value}}
+  {{#create_image_pull_secret.Value}}
+  app:registryUrl: "{{registry_url.Value}}"
+  app:registryUsername: "{{registry_username.Value}}"
+  app:registryPassword: "{{registry_password.Value}}"
+  {{/create_image_pull_secret.Value}}
