@@ -24,22 +24,27 @@ properties:
     type: string
     description: Pulumi stack name
     required: true
+    canHaveOutputVarValue: false
   - name: pulumi_project_name
     type: string
     description: Name of your Pulumi project
     required: true
+    canHaveOutputVarValue: false
   - name: host
     type: string
     description: Host/Domain name of the application (need for ingress rules, use "localhost" for local development)
     required: true
+    canHaveOutputVarValue: true
   - name: use_vpn
     type: boolean
     description: Use VPN to access cluster resources (not just exposed ones)
     required: true
+    canHaveOutputVarValue: false
   - name: use_db
     type: boolean
     description: Configure database access
     required: true
+    canHaveOutputVarValue: false
     requires:
       - install_self_hosted_db
 
@@ -47,6 +52,7 @@ properties:
   - name: create_image_pull_secret
     type: boolean
     description: Create image pull secret
+    canHaveOutputVarValue: false
     required: true
     requires:
       - registry_url
@@ -55,14 +61,17 @@ properties:
   - name: registry_url
     type: string
     description: Docker registry URL
+    canHaveOutputVarValue: true
     required: false
   - name: registry_username
     type: string
     description: Docker registry username
+    canHaveOutputVarValue: true
     required: false
   - name: registry_password
     type: password
     description: Docker registry password
+    canHaveOutputVarValue: true
     required: false
 
 #    DB
@@ -70,6 +79,7 @@ properties:
     type: boolean
     description: Install self hosted MySQL database
     required: false
+    canHaveOutputVarValue: false
     requires:
       - db_name
       - db_username
@@ -77,16 +87,20 @@ properties:
   - name: db_url
     type: string
     description: Database server URL (blank if using self hosted DB)
+    canHaveOutputVarValue: true
     required: false
   - name: db_name
     type: string
     description: Database name
+    canHaveOutputVarValue: true
     required: false
   - name: db_username
     type: string
     description: Database username
+    canHaveOutputVarValue: true
     required: false
   - name: db_password
     type: password
     description: Database password
+    canHaveOutputVarValue: true
     required: false
