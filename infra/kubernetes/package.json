@@ -1,5 +1,5 @@
 {
-    "name": "{{pulumi_project_name}}",
+    "name": "{{pulumi_project_name.Value}}",
     "devDependencies": {
         "@types/node": "^10.0.0"
     },
