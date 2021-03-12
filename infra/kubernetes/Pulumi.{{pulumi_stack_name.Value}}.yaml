@@ -5,13 +5,28 @@ config:
   {{/host.IsPulumiOutput}}
   {{#use_db.Value}}
   app:selfHostedDb: {{install_self_hosted_db.Value}}
+  {{^db_username.IsPulumiOutput}}
   app:dbUsername: "{{db_username.Value}}"
+  {{/db_username.IsPulumiOutput}}
+  {{^db_password.IsPulumiOutput}}
   app:dbPassword: "{{db_password.Value}}"
+  {{/db_password.IsPulumiOutput}}
+  {{^db_name.IsPulumiOutput}}
+  app:dbName: "{{db_name.Value}}"
+  {{/db_name.IsPulumiOutput}}
+  {{^db_url.IsPulumiOutput}}
   app:dbUrl: "{{db_url.Value}}"
+  {{/db_url.IsPulumiOutput}}
   app:dbPort: 3306
   {{/use_db.Value}}
   {{#create_image_pull_secret.Value}}
+  {{^registry_url.IsPulumiOutput}}
   app:registryUrl: "{{registry_url.Value}}"
+  {{/registry_url.IsPulumiOutput}}
+  {{^registry_username.IsPulumiOutput}}
   app:registryUsername: "{{registry_username.Value}}"
+  {{/registry_username.IsPulumiOutput}}
+  {{^registry_password.IsPulumiOutput}}
   app:registryPassword: "{{registry_password.Value}}"
+  {{/registry_password.IsPulumiOutput}}
   {{/create_image_pull_secret.Value}}

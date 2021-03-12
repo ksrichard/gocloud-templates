@@ -17,9 +17,28 @@ export const host = config.require("host");
 const useVPN = config.requireBoolean("useVPN");
 
 {{#create_image_pull_secret.Value}}
+
+{{#registry_url.IsPulumiOutput}}
+const registryUrl = new pulumi.StackReference(`{{registry_url.PulumiStackReference}}/${pulumi.getStack()}`).requireOutput("{{registry_url.PulumiOutputVar}}").apply(v => `${v}`);
+{{/registry_url.IsPulumiOutput}}
+{{^registry_url.IsPulumiOutput}}
 export const registryUrl = config.require("registryUrl");
+{{/registry_url.IsPulumiOutput}}
+
+{{#registry_username.IsPulumiOutput}}
+const registryUsername = new pulumi.StackReference(`{{registry_username.PulumiStackReference}}/${pulumi.getStack()}`).requireOutput("{{registry_username.PulumiOutputVar}}").apply(v => `${v}`);
+{{/registry_username.IsPulumiOutput}}
+{{^registry_username.IsPulumiOutput}}
 export const registryUsername = config.require("registryUsername");
+{{/registry_username.IsPulumiOutput}}
+
+{{#registry_password.IsPulumiOutput}}
+const registryUsername = new pulumi.StackReference(`{{registry_password.PulumiStackReference}}/${pulumi.getStack()}`).requireOutput("{{registry_password.PulumiOutputVar}}").apply(v => `${v}`);
+{{/registry_password.IsPulumiOutput}}
+{{^registry_password.IsPulumiOutput}}
 export const registryPassword = config.require("registryPassword");
+{{/registry_password.IsPulumiOutput}}
+
 export const imagePullSecretName: string = "image-pull-secret";
 const secret = common.createImagePullSecret(imagePullSecretName, registryUsername, registryPassword, registryUrl);
 {{/create_image_pull_secret.Value}}
@@ -150,9 +169,35 @@ const kibana = new k8s.helm.v3.Chart("kibana",
 {{#use_db.Value}}
 // DB
 const selfHostedDb = config.requireBoolean("selfHostedDb");
+
+{{#db_url.IsPulumiOutput}}
+const dbUrl = new pulumi.StackReference(`{{db_url.PulumiStackReference}}/${pulumi.getStack()}`).requireOutput("{{db_url.PulumiOutputVar}}").apply(v => `${v}`);
+{{/db_url.IsPulumiOutput}}
+{{^db_url.IsPulumiOutput}}
 export const dbUrl = pulumi.interpolate `${config.require("dbUrl")}`;
+{{/db_url.IsPulumiOutput}}
+
+{{#db_username.IsPulumiOutput}}
+const dbUsername = new pulumi.StackReference(`{{db_username.PulumiStackReference}}/${pulumi.getStack()}`).requireOutput("{{db_username.PulumiOutputVar}}").apply(v => `${v}`);
+{{/db_username.IsPulumiOutput}}
+{{^db_username.IsPulumiOutput}}
 export const dbUsername = config.require("dbUsername");
+{{/db_username.IsPulumiOutput}}
+
+{{#db_password.IsPulumiOutput}}
+const dbPassword = new pulumi.StackReference(`{{db_password.PulumiStackReference}}/${pulumi.getStack()}`).requireOutput("{{db_password.PulumiOutputVar}}").apply(v => `${v}`);
+{{/db_password.IsPulumiOutput}}
+{{^db_password.IsPulumiOutput}}
 export const dbPassword = config.require("dbPassword");
+{{/db_password.IsPulumiOutput}}
+
+{{#db_name.IsPulumiOutput}}
+const dbName = new pulumi.StackReference(`{{db_name.PulumiStackReference}}/${pulumi.getStack()}`).requireOutput("{{db_name.PulumiOutputVar}}").apply(v => `${v}`);
+{{/db_name.IsPulumiOutput}}
+{{^db_name.IsPulumiOutput}}
+export const dbName = config.require("dbName");
+{{/db_name.IsPulumiOutput}}
+
 export const dbPort = config.requireNumber("dbPort");
 let dbHost = dbUrl;
 
@@ -164,7 +209,7 @@ if (selfHostedDb) {
         },
         data: {
             "init.sql": pulumi.interpolate `
-        CREATE DATABASE {{db_name}};
+        CREATE DATABASE ${dbName};
         GRANT ALL PRIVILEGES ON user_service.* TO '${dbUsername}'@'%';
         FLUSH PRIVILEGES;
         `,
