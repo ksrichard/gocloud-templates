@@ -1,0 +1,66 @@
+name: Golang REST API (Kubernetes)
+description: Kubernetes based Golang REST API service
+requirements:
+  - kubectl
+  - npm
+install_script:
+  - os: darwin
+    script: deploy/install.sh
+  - os: linux
+    script: deploy/install.sh
+up_script:
+  - os: darwin
+    script: deploy/up.sh
+  - os: linux
+    script: deploy/up.sh
+down_script:
+  - os: darwin
+    script: deploy/down.sh
+  - os: linux
+    script: deploy/down.sh
+
+properties:
+  - name: pulumi_stack_name
+    type: string
+    description: Pulumi stack name
+    required: true
+    canHaveOutputVarValue: false
+  - name: pulumi_project_name
+    type: string
+    description: Name of your Pulumi project
+    required: true
+    canHaveOutputVarValue: false
+  - name: service_name
+    type: string
+    description: Name of your REST API service
+    required: true
+    canHaveOutputVarValue: false
+  - name: create_ingress
+    type: boolean
+    description: Create Ingress rule (to expose service on a URL path)
+    required: true
+    canHaveOutputVarValue: false
+    requires:
+      - host
+      - service_path
+      - service_port
+  - name: host
+    type: string
+    description: Host/Domain name of the application
+    required: false
+    canHaveOutputVarValue: true
+  - name: service_path
+    type: string
+    description: Service URL path
+    required: false
+    canHaveOutputVarValue: false
+  - name: service_port
+    type: string
+    description: Service port
+    required: false
+    canHaveOutputVarValue: false
+  - name: service_docker_image_name
+    type: string
+    description: Service docker image name
+    required: true
+    canHaveOutputVarValue: false

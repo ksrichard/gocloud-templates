@@ -1,0 +1,17 @@
+config:
+  app:createIngress: {{create_ingress.Value}}
+  app:host: "{{host.Value}}"
+  app:serviceName: "{{service_name.Value}}"
+  app:imageName: "{{service_docker_image_name.Value}}"
+  app:servicePath: "{{service_path.Value}}"
+  app:dbName: "user_service"
+  app:serviceHealthCheckPath: "/healthcheck"
+  app:servicePort: 8080
+  app:useLocalRepo: true
+  app:autoScalingEnabled: true
+  app:autoScalingMemoryMaxPercentage: 50
+  app:autoScalingCpuMaxPercentage: 50
+  app:autoScalingMinReplicas: 1
+  app:autoScalingMaxReplicas: 3
+  app:cpuLimit: "50m"
+  app:memoryLimit: "100Mi"

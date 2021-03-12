@@ -2,6 +2,6 @@ projects:
   - name: infrastructure
     title: Infrastructure
     folder: infra
-#  - name: microservice
-#    title: Micro-Service
-#    folder: microservices
+  - name: microservice
+    title: Micro Service
+    folder: microservice

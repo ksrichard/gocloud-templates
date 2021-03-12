@@ -1,0 +1,3 @@
+name: {{pulumi_project_name.Value}}
+runtime: nodejs
+description: Kubernetes based Golang REST API service

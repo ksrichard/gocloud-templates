@@ -51,7 +51,7 @@ properties:
 #    Docker registry
   - name: create_image_pull_secret
     type: boolean
-    description: Create image pull secret
+    description: Use external Docker registry
     canHaveOutputVarValue: false
     required: true
     requires:
