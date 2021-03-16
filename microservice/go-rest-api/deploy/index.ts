@@ -1,26 +1,64 @@
 import * as kx from "@pulumi/kubernetesx";
 import * as docker from "@pulumi/docker";
+import {Namespace} from "@pulumi/kubernetes/core/v1";
 import * as pulumi from "@pulumi/pulumi";
 import {Ingress} from "@pulumi/kubernetes/networking/v1beta1";
 import {HorizontalPodAutoscaler} from "@pulumi/kubernetes/autoscaling/v2beta2";
 
+const config = new pulumi.Config("app");
+
+{{#host.IsPulumiOutput}}
+const host = new pulumi.StackReference(`{{host.PulumiStackReference}}/${pulumi.getStack()}`).requireOutput("{{host.PulumiOutputVar}}").apply(v => `${v}`);
+{{/host.IsPulumiOutput}}
+{{^host.IsPulumiOutput}}
+export const host = config.require("host");
+{{/host.IsPulumiOutput}}
+
+{{#registry_url.IsPulumiOutput}}
+const registryUrl = new pulumi.StackReference(`{{registry_url.PulumiStackReference}}/${pulumi.getStack()}`).requireOutput("{{registry_url.PulumiOutputVar}}").apply(v => `${v}`);
+{{/registry_url.IsPulumiOutput}}
+{{^registry_url.IsPulumiOutput}}
+export const registryUrl = config.require("registryUrl");
+{{/registry_url.IsPulumiOutput}}
+
+{{#registry_username.IsPulumiOutput}}
+const registryUsername = new pulumi.StackReference(`{{registry_username.PulumiStackReference}}/${pulumi.getStack()}`).requireOutput("{{registry_username.PulumiOutputVar}}").apply(v => `${v}`);
+{{/registry_username.IsPulumiOutput}}
+{{^registry_username.IsPulumiOutput}}
+export const registryUsername = config.require("registryUsername");
+{{/registry_username.IsPulumiOutput}}
+
+{{#registry_password.IsPulumiOutput}}
+const registryUsername = new pulumi.StackReference(`{{registry_password.PulumiStackReference}}/${pulumi.getStack()}`).requireOutput("{{registry_password.PulumiOutputVar}}").apply(v => `${v}`);
+{{/registry_password.IsPulumiOutput}}
+{{^registry_password.IsPulumiOutput}}
+export const registryPassword = config.require("registryPassword");
+{{/registry_password.IsPulumiOutput}}
+
+{{#k8s_namespace.IsPulumiOutput}}
+const appsNamespaceName = new pulumi.StackReference(`{{k8s_namespace.PulumiStackReference}}/${pulumi.getStack()}`).requireOutput("{{k8s_namespace.PulumiOutputVar}}").apply(v => `${v}`);
+{{/k8s_namespace.IsPulumiOutput}}
+{{^k8s_namespace.IsPulumiOutput}}
+export const appsNamespaceName = config.require("namespace");
+{{/k8s_namespace.IsPulumiOutput}}
+
+{{#repo_name.IsPulumiOutput}}
+const repoName = new pulumi.StackReference(`{{repo_name.PulumiStackReference}}/${pulumi.getStack()}`).requireOutput("{{repo_name.PulumiOutputVar}}").apply(v => `${v}`);
+{{/repo_name.IsPulumiOutput}}
+{{^repo_name.IsPulumiOutput}}
+export const repoName = config.require("repo_name");
+{{/repo_name.IsPulumiOutput}}
+
+
 // infra stack info
-const infraStack = new pulumi.StackReference(`ksrichard/infra/${pulumi.getStack()}`);
 const imagePullSecretName = infraStack.requireOutput("imagePullSecretName").apply(v => `${v}`);
-const appsNamespaceName = infraStack.requireOutput("appsNamespaceName").apply(v => `${v}`);
-const repoName = infraStack.requireOutput("repoName").apply(v => `${v}`);
-const registryUrl = infraStack.requireOutput("registryUrl").apply(v => `${v}`);
-const registryUsername = infraStack.requireOutput("registryUsername").apply(v => `${v}`);
-const registryPassword = infraStack.requireOutput("registryPassword").apply(v => `${v}`);
-const host = infraStack.requireOutput("host").apply(v => `${v}`);
+
 
 // config
-const config = new pulumi.Config("app");
 const serviceName = config.require("serviceName");
 const labels = {app: serviceName};
 const imageName = config.require("imageName");
 const servicePath = config.require("servicePath");
-const qraphQlQueryPath = config.require("qraphQlQueryPath");
 const servicePort = config.requireNumber("servicePort");
 const useLocalRepo = config.requireBoolean("useLocalRepo");
 const autoScalingEnabled = config.requireBoolean("autoScalingEnabled");
@@ -29,11 +67,11 @@ const createIngress = config.requireBoolean("createIngress");
 
 // DB config
 const dbName = config.require("dbName");
-const dbServiceName = infraStack.requireOutput("dbServiceName").apply(v => `${v}`);
+const dbUrl = infraStack.requireOutput("dbServiceName").apply(v => `${v}`);
 const dbPort = infraStack.requireOutput("dbPort").apply(v => `${v}`);
 const dbUsername = infraStack.requireOutput("dbUsername").apply(v => `${v}`);
 const dbPassword = infraStack.requireOutput("dbPassword").apply(v => `${v}`);
-let dsn = pulumi.interpolate `${dbUsername}:${dbPassword}@tcp(${dbServiceName}:${dbPort})/${dbName}?charset=utf8mb4&parseTime=True&loc=Local`;
+let dsn = pulumi.interpolate `${dbUsername}:${dbPassword}@tcp(${dbUrl}:${dbPort})/${dbName}?charset=utf8mb4&parseTime=True&loc=Local`;
 
 // for local testing
 let imagePullPolicy = useLocalRepo ? "Never" : "Always";
@@ -90,10 +128,6 @@ if (useLocalRepo) {
                     value: servicePath
                 },
                 {
-                    name: "QUERY_PATH",
-                    value: qraphQlQueryPath
-                },
-                {
                     name: "HEALTH_CHECK_PATH",
                     value: serviceHealthCheckPath
                 },
@@ -142,10 +176,6 @@ if (useLocalRepo) {
                 {
                     name: "ROOT_PATH",
                     value: servicePath,
-                },
-                {
-                    name: "QUERY_PATH",
-                    value: qraphQlQueryPath
                 },
                 {
                     name: "HEALTH_CHECK_PATH",
@@ -216,7 +246,7 @@ if (autoScalingEnabled) {
 const service = deployment.createService({
     selector: labels,
 });
-export const serviceUrl = pulumi.interpolate `http://${service.metadata.name.apply(v => `${v}`)}:${servicePort}${qraphQlQueryPath}`;
+export const serviceUrl = pulumi.interpolate `http://${service.metadata.name.apply(v => `${v}`)}:${servicePort}`;
 
 // ingress
 if (createIngress) {

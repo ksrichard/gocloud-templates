@@ -46,9 +46,6 @@ const secret = common.createImagePullSecret(imagePullSecretName, registryUsernam
 const controlPlaneNs = new Namespace("control");
 export const controlPlaneNamespaceName = controlPlaneNs.metadata.name;
 
-const appsNs = new Namespace("apps");
-export const appsNamespaceName = appsNs.metadata.name;
-
 let credentials = null;
 
 if (useVPN) {
@@ -238,6 +235,9 @@ if (selfHostedDb) {
 
     dbHost = pulumi.interpolate `db-mysql.${controlPlaneNamespaceName}.svc.cluster.local`;
 }
+
+const appsNs = new Namespace("apps");
+export const appsNamespaceName = appsNs.metadata.name;
 
 const appsDbService = new k8s.core.v1.Service("db-mysql", {
     metadata: {

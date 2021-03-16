@@ -30,6 +30,11 @@ properties:
     description: Name of your Pulumi project
     required: true
     canHaveOutputVarValue: false
+  - name: k8s_namespace
+    type: string
+    description: Kubernetes namespace
+    required: true
+    canHaveOutputVarValue: true
   - name: service_name
     type: string
     description: Name of your REST API service
@@ -54,6 +59,11 @@ properties:
     description: Service URL path
     required: false
     canHaveOutputVarValue: false
+  - name: health_check_path
+    type: string
+    description: Service health check path
+    required: false
+    canHaveOutputVarValue: false
   - name: service_port
     type: string
     description: Service port
@@ -64,3 +74,62 @@ properties:
     description: Service docker image name
     required: true
     canHaveOutputVarValue: false
+  - name: use_local_repo
+    type: boolean
+    description: Use local docker repository (for local testing with minikube)
+    required: true
+    canHaveOutputVarValue: false
+  - name: repo_name
+    type: string
+    description: Docker registry repository name
+    required: true
+    canHaveOutputVarValue: true
+  - name: registry_url
+    type: string
+    description: Docker registry URL
+    canHaveOutputVarValue: true
+    required: true
+  - name: registry_username
+    type: string
+    description: Docker registry username
+    canHaveOutputVarValue: true
+    required: true
+  - name: registry_password
+    type: password
+    description: Docker registry password
+    canHaveOutputVarValue: true
+    required: true
+  - name: configure_db_access
+    type: boolean
+    description: Configure database access
+    required: true
+    canHaveOutputVarValue: false
+    requires:
+      - db_name
+      - db_username
+      - db_password
+  - name: db_url
+    type: string
+    description: Database server URL
+    canHaveOutputVarValue: true
+    required: false
+  - name: db_name
+    type: string
+    description: Database name
+    canHaveOutputVarValue: true
+    required: false
+  - name: db_username
+    type: string
+    description: Database username
+    canHaveOutputVarValue: true
+    required: false
+  - name: db_password
+    type: password
+    description: Database password
+    canHaveOutputVarValue: true
+    required: false
+  - name: enable_auto_scaling
+    type: string
+    description: Enable auto-scaling
+    canHaveOutputVarValue: false
+    required: true

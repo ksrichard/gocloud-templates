@@ -1,14 +1,42 @@
 config:
   app:createIngress: {{create_ingress.Value}}
   app:host: "{{host.Value}}"
+  {{^k8s_namespace.IsPulumiOutput}}
+  app:namespace: "{{k8s_namespace.Value}}"
+  {{/k8s_namespace.IsPulumiOutput}}
   app:serviceName: "{{service_name.Value}}"
   app:imageName: "{{service_docker_image_name.Value}}"
   app:servicePath: "{{service_path.Value}}"
-  app:dbName: "user_service"
-  app:serviceHealthCheckPath: "/healthcheck"
-  app:servicePort: 8080
-  app:useLocalRepo: true
-  app:autoScalingEnabled: true
+  {{#configure_db_access.Value}}
+  {{^db_username.IsPulumiOutput}}
+  app:dbUsername: "{{db_username.Value}}"
+  {{/db_username.IsPulumiOutput}}
+  {{^db_password.IsPulumiOutput}}
+  app:dbPassword: "{{db_password.Value}}"
+  {{/db_password.IsPulumiOutput}}
+  {{^db_name.IsPulumiOutput}}
+  app:dbName: "{{db_name.Value}}"
+  {{/db_name.IsPulumiOutput}}
+  {{^db_url.IsPulumiOutput}}
+  app:dbUrl: "{{db_url.Value}}"
+  {{/db_url.IsPulumiOutput}}
+  {{/configure_db_access.Value}}
+  {{^registry_url.IsPulumiOutput}}
+  app:registryUrl: "{{registry_url.Value}}"
+  {{/registry_url.IsPulumiOutput}}
+  {{^registry_username.IsPulumiOutput}}
+  app:registryUsername: "{{registry_username.Value}}"
+  {{/registry_username.IsPulumiOutput}}
+  {{^registry_password.IsPulumiOutput}}
+  app:registryPassword: "{{registry_password.Value}}"
+  {{/registry_password.IsPulumiOutput}}
+  {{^repo_name.IsPulumiOutput}}
+  app:repo_name: "{{repo_name.Value}}"
+  {{/repo_name.IsPulumiOutput}}
+  app:serviceHealthCheckPath: "{{health_check_path.Value}}"
+  app:servicePort: {{service_port.Value}}
+  app:useLocalRepo: {{use_local_repo.Value}}
+  app:autoScalingEnabled: {{enable_auto_scaling.Value}}
   app:autoScalingMemoryMaxPercentage: 50
   app:autoScalingCpuMaxPercentage: 50
   app:autoScalingMinReplicas: 1
