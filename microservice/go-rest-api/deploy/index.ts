@@ -51,8 +51,12 @@ export const repoName = config.require("repo_name");
 
 
 // infra stack info
-const imagePullSecretName = infraStack.requireOutput("imagePullSecretName").apply(v => `${v}`);
-
+{{#image_pull_secret_name.IsPulumiOutput}}
+const imagePullSecretName = new pulumi.StackReference(`{{image_pull_secret_name.PulumiStackReference}}/${pulumi.getStack()}`).requireOutput("{{image_pull_secret_name.PulumiOutputVar}}").apply(v => `${v}`);
+{{/image_pull_secret_name.IsPulumiOutput}}
+{{^image_pull_secret_name.IsPulumiOutput}}
+export const imagePullSecretName = pulumi.interpolate `${config.require("imagePullSecretName")}`;
+{{/image_pull_secret_name.IsPulumiOutput}}
 
 // config
 const serviceName = config.require("serviceName");
@@ -66,11 +70,42 @@ const serviceHealthCheckPath = config.require("serviceHealthCheckPath");
 const createIngress = config.requireBoolean("createIngress");
 
 // DB config
-const dbName = config.require("dbName");
-const dbUrl = infraStack.requireOutput("dbServiceName").apply(v => `${v}`);
-const dbPort = infraStack.requireOutput("dbPort").apply(v => `${v}`);
-const dbUsername = infraStack.requireOutput("dbUsername").apply(v => `${v}`);
-const dbPassword = infraStack.requireOutput("dbPassword").apply(v => `${v}`);
+{{#db_url.IsPulumiOutput}}
+const dbUrl = new pulumi.StackReference(`{{db_url.PulumiStackReference}}/${pulumi.getStack()}`).requireOutput("{{db_url.PulumiOutputVar}}").apply(v => `${v}`);
+{{/db_url.IsPulumiOutput}}
+{{^db_url.IsPulumiOutput}}
+export const dbUrl = pulumi.interpolate `${config.require("dbUrl")}`;
+{{/db_url.IsPulumiOutput}}
+
+{{#db_port.IsPulumiOutput}}
+const dbPort = new pulumi.StackReference(`{{db_port.PulumiStackReference}}/${pulumi.getStack()}`).requireOutput("{{db_port.PulumiOutputVar}}").apply(v => `${v}`);
+{{/db_port.IsPulumiOutput}}
+{{^db_port.IsPulumiOutput}}
+export const dbPort = pulumi.interpolate `${config.require("dbPort")}`;
+{{/db_port.IsPulumiOutput}}
+
+{{#db_username.IsPulumiOutput}}
+const dbUsername = new pulumi.StackReference(`{{db_username.PulumiStackReference}}/${pulumi.getStack()}`).requireOutput("{{db_username.PulumiOutputVar}}").apply(v => `${v}`);
+{{/db_username.IsPulumiOutput}}
+{{^db_username.IsPulumiOutput}}
+export const dbUsername = config.require("dbUsername");
+{{/db_username.IsPulumiOutput}}
+
+{{#db_password.IsPulumiOutput}}
+const dbPassword = new pulumi.StackReference(`{{db_password.PulumiStackReference}}/${pulumi.getStack()}`).requireOutput("{{db_password.PulumiOutputVar}}").apply(v => `${v}`);
+{{/db_password.IsPulumiOutput}}
+{{^db_password.IsPulumiOutput}}
+export const dbPassword = config.require("dbPassword");
+{{/db_password.IsPulumiOutput}}
+
+{{#db_name.IsPulumiOutput}}
+const dbName = new pulumi.StackReference(`{{db_name.PulumiStackReference}}/${pulumi.getStack()}`).requireOutput("{{db_name.PulumiOutputVar}}").apply(v => `${v}`);
+{{/db_name.IsPulumiOutput}}
+{{^db_name.IsPulumiOutput}}
+export const dbName = config.require("dbName");
+{{/db_name.IsPulumiOutput}}
+
+
 let dsn = pulumi.interpolate `${dbUsername}:${dbPassword}@tcp(${dbUrl}:${dbPort})/${dbName}?charset=utf8mb4&parseTime=True&loc=Local`;
 
 // for local testing

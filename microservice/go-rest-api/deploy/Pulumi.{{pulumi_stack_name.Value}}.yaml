@@ -20,6 +20,9 @@ config:
   {{^db_url.IsPulumiOutput}}
   app:dbUrl: "{{db_url.Value}}"
   {{/db_url.IsPulumiOutput}}
+  {{^db_port.IsPulumiOutput}}
+  app:dbPort: "{{db_port.Value}}"
+  {{/db_port.IsPulumiOutput}}
   {{/configure_db_access.Value}}
   {{^registry_url.IsPulumiOutput}}
   app:registryUrl: "{{registry_url.Value}}"
@@ -33,6 +36,9 @@ config:
   {{^repo_name.IsPulumiOutput}}
   app:repo_name: "{{repo_name.Value}}"
   {{/repo_name.IsPulumiOutput}}
+  {{^image_pull_secret_name.IsPulumiOutput}}
+  app:imagePullSecretName: "{{image_pull_secret_name.Value}}"
+  {{/image_pull_secret_name.IsPulumiOutput}}
   app:serviceHealthCheckPath: "{{health_check_path.Value}}"
   app:servicePort: {{service_port.Value}}
   app:useLocalRepo: {{use_local_repo.Value}}

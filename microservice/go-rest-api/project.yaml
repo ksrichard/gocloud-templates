@@ -84,6 +84,11 @@ properties:
     description: Docker registry repository name
     required: true
     canHaveOutputVarValue: true
+  - name: image_pull_secret_name
+    type: string
+    description: Image pull secret name (leave empty if using local repository)
+    required: true
+    canHaveOutputVarValue: true
   - name: registry_url
     type: string
     description: Docker registry URL
