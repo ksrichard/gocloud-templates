@@ -1,6 +1,8 @@
 config:
   app:createIngress: {{create_ingress.Value}}
+  {{^host.IsPulumiOutput}}
   app:host: "{{host.Value}}"
+  {{/host.IsPulumiOutput}}
   {{^k8s_namespace.IsPulumiOutput}}
   app:namespace: "{{k8s_namespace.Value}}"
   {{/k8s_namespace.IsPulumiOutput}}
