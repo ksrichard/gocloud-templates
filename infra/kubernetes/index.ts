@@ -115,7 +115,7 @@ const filebeat = new k8s.helm.v3.Chart("filebeat",
     {
         namespace: controlPlaneNamespaceName,
         chart: "filebeat",
-        version: "7.9.2",
+        version: "7.11.2",
         fetchOpts: {repo: "https://helm.elastic.co"},
     },
     {dependsOn: [elasticSearch]}
@@ -125,7 +125,7 @@ const kibana = new k8s.helm.v3.Chart("kibana",
     {
         namespace: controlPlaneNamespaceName,
         chart: "kibana",
-        version: "7.9.2",
+        version: "7.11.2",
         fetchOpts: {repo: "https://helm.elastic.co"},
         values: {
             replicas: 1,
