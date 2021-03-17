@@ -30,6 +30,11 @@ properties:
     description: Name of your Pulumi project
     required: true
     canHaveOutputVarValue: false
+  - name: go_module_name
+    type: string
+    description: Go module name
+    required: true
+    canHaveOutputVarValue: false
   - name: k8s_namespace
     type: string
     description: Kubernetes namespace
