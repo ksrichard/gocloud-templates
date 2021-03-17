@@ -139,7 +139,7 @@ properties:
     canHaveOutputVarValue: true
     required: false
   - name: enable_auto_scaling
-    type: string
+    type: boolean
     description: Enable auto-scaling
     canHaveOutputVarValue: false
     required: true
