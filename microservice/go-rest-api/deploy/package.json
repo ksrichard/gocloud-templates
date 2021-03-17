@@ -1,0 +1,15 @@
+{
+    "name": "{{pulumi_project_name.Value}}",
+    "devDependencies": {
+        "@types/node": "^10.0.0"
+    },
+    "dependencies": {
+        "@pulumi/docker": "latest",
+        "@pulumi/kubernetes": "^2.0.0",
+        "@pulumi/kubernetesx": "^0.1.1",
+        "@pulumi/pulumi": "^2.0.0",
+        "@timmyers/pulumi-k8s-metrics-server": "latest",
+        "js-base64": "latest",
+        "pulumi-htpasswd": "1.2.0"
+    }
+}
