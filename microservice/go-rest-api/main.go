@@ -1,7 +1,4 @@
-package
-
-import "os"
-{{go_module_name.Value}}
+package {{go_module_name.Value}}
 
 import (
 	"github.com/gin-gonic/gin"
