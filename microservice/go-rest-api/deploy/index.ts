@@ -113,18 +113,27 @@ let dsn = pulumi.interpolate `${dbUsername}:${dbPassword}@tcp(${dbUrl}:${dbPort}
 
 // for local testing
 let imagePullPolicy = useLocalRepo ? "Never" : "Always";
-
-const dockerImage = new docker.Image(imageName, {
-    imageName: pulumi.interpolate `${registryUrl}/${repoName}/${imageName}:latest`,
-    build: "../",
-    skipPush: useLocalRepo,
-    localImageName: `${imageName}:latest`,
-    registry: {
-        server: registryUrl,
-        username:  registryUsername,
-        password: registryPassword,
-    }
-});
+let dockerImage = null;
+if (useLocalRepo) {
+    dockerImage = new docker.Image(imageName, {
+        imageName: pulumi.interpolate `${imageName}:latest`,
+        build: "../",
+        skipPush: useLocalRepo,
+        localImageName: `${imageName}:latest`,
+    });
+} else {
+    dockerImage = new docker.Image(imageName, {
+        imageName: pulumi.interpolate `${registryUrl}/${repoName}/${imageName}:latest`,
+        build: "../",
+        skipPush: useLocalRepo,
+        localImageName: `${imageName}:latest`,
+        registry: {
+            server: registryUrl,
+            username:  registryUsername,
+            password: registryPassword,
+        }
+    });
+}
 
 let pb;
 if (useLocalRepo) {
