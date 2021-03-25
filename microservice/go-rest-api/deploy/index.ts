@@ -6,44 +6,47 @@ import {Ingress} from "@pulumi/kubernetes/networking/v1beta1";
 import {HorizontalPodAutoscaler} from "@pulumi/kubernetes/autoscaling/v2beta2";
 
 const config = new pulumi.Config("app");
+{{#pulumi_stack_references}}
+const {{VarName}} = new pulumi.StackReference(`{{Reference}}/${pulumi.getStack()}`);
+{{/pulumi_stack_references}}
 
 {{#host.IsPulumiOutput}}
-const host = new pulumi.StackReference(`{{host.PulumiStackReferenceVar}}/${pulumi.getStack()}`).requireOutput("{{host.PulumiOutputVar}}").apply(v => `${v}`);
+const host = {{host.PulumiStackReferenceVar}}.requireOutput("{{host.PulumiOutputVar}}").apply(v => `${v}`);
 {{/host.IsPulumiOutput}}
 {{^host.IsPulumiOutput}}
 export const host = config.require("host");
 {{/host.IsPulumiOutput}}
 
 {{#registry_url.IsPulumiOutput}}
-const registryUrl = new pulumi.StackReference(`{{registry_url.PulumiStackReferenceVar}}/${pulumi.getStack()}`).requireOutput("{{registry_url.PulumiOutputVar}}").apply(v => `${v}`);
+const registryUrl = {{registry_url.PulumiStackReferenceVar}}.requireOutput("{{registry_url.PulumiOutputVar}}").apply(v => `${v}`);
 {{/registry_url.IsPulumiOutput}}
 {{^registry_url.IsPulumiOutput}}
 export const registryUrl = config.require("registryUrl");
 {{/registry_url.IsPulumiOutput}}
 
 {{#registry_username.IsPulumiOutput}}
-const registryUsername = new pulumi.StackReference(`{{registry_username.PulumiStackReferenceVar}}/${pulumi.getStack()}`).requireOutput("{{registry_username.PulumiOutputVar}}").apply(v => `${v}`);
+const registryUsername = {{registry_username.PulumiStackReferenceVar}}.requireOutput("{{registry_username.PulumiOutputVar}}").apply(v => `${v}`);
 {{/registry_username.IsPulumiOutput}}
 {{^registry_username.IsPulumiOutput}}
 export const registryUsername = config.require("registryUsername");
 {{/registry_username.IsPulumiOutput}}
 
 {{#registry_password.IsPulumiOutput}}
-const registryUsername = new pulumi.StackReference(`{{registry_password.PulumiStackReferenceVar}}/${pulumi.getStack()}`).requireOutput("{{registry_password.PulumiOutputVar}}").apply(v => `${v}`);
+const registryUsername = {{registry_password.PulumiStackReferenceVar}}.requireOutput("{{registry_password.PulumiOutputVar}}").apply(v => `${v}`);
 {{/registry_password.IsPulumiOutput}}
 {{^registry_password.IsPulumiOutput}}
 export const registryPassword = config.require("registryPassword");
 {{/registry_password.IsPulumiOutput}}
 
 {{#k8s_namespace.IsPulumiOutput}}
-const appsNamespaceName = new pulumi.StackReference(`{{k8s_namespace.PulumiStackReferenceVar}}/${pulumi.getStack()}`).requireOutput("{{k8s_namespace.PulumiOutputVar}}").apply(v => `${v}`);
+const appsNamespaceName = {{k8s_namespace.PulumiStackReferenceVar}}.requireOutput("{{k8s_namespace.PulumiOutputVar}}").apply(v => `${v}`);
 {{/k8s_namespace.IsPulumiOutput}}
 {{^k8s_namespace.IsPulumiOutput}}
 export const appsNamespaceName = config.require("namespace");
 {{/k8s_namespace.IsPulumiOutput}}
 
 {{#repo_name.IsPulumiOutput}}
-const repoName = new pulumi.StackReference(`{{repo_name.PulumiStackReferenceVar}}/${pulumi.getStack()}`).requireOutput("{{repo_name.PulumiOutputVar}}").apply(v => `${v}`);
+const repoName = {{repo_name.PulumiStackReferenceVar}}.requireOutput("{{repo_name.PulumiOutputVar}}").apply(v => `${v}`);
 {{/repo_name.IsPulumiOutput}}
 {{^repo_name.IsPulumiOutput}}
 export const repoName = config.require("repo_name");
@@ -52,7 +55,7 @@ export const repoName = config.require("repo_name");
 
 // infra stack info
 {{#image_pull_secret_name.IsPulumiOutput}}
-const imagePullSecretName = new pulumi.StackReference(`{{image_pull_secret_name.PulumiStackReferenceVar}}/${pulumi.getStack()}`).requireOutput("{{image_pull_secret_name.PulumiOutputVar}}").apply(v => `${v}`);
+const imagePullSecretName = {{image_pull_secret_name.PulumiStackReferenceVar}}.requireOutput("{{image_pull_secret_name.PulumiOutputVar}}").apply(v => `${v}`);
 {{/image_pull_secret_name.IsPulumiOutput}}
 {{^image_pull_secret_name.IsPulumiOutput}}
 export const imagePullSecretName = pulumi.interpolate `${config.require("imagePullSecretName")}`;
@@ -68,10 +71,6 @@ const useLocalRepo = config.requireBoolean("useLocalRepo");
 const autoScalingEnabled = config.requireBoolean("autoScalingEnabled");
 const serviceHealthCheckPath = config.require("serviceHealthCheckPath");
 const createIngress = config.requireBoolean("createIngress");
-
-{{#pulumi_stack_references}}
-const {{VarName}} = new pulumi.StackReference(`{{Reference}}/${pulumi.getStack()}`);
-{{/pulumi_stack_references}}
 
 // DB config
 {{#db_url.IsPulumiOutput}}
