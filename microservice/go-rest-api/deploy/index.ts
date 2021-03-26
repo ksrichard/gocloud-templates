@@ -116,7 +116,7 @@ let imagePullPolicy = useLocalRepo ? "Never" : "Always";
 let dockerImage = null;
 if (useLocalRepo) {
     dockerImage = new docker.Image(imageName, {
-        imageName: pulumi.interpolate `${imageName}:latest`,
+        imageName: pulumi.interpolate `localhost/${imageName}:latest`,
         build: "../",
         skipPush: useLocalRepo,
         localImageName: `${imageName}:latest`,
