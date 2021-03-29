@@ -12,13 +12,9 @@ func main() {
 	// web server
 	r := gin.Default()
 
-	r.GET(HEALTH_CHECK_PATH, func(c *gin.Context) {
-		c.Status(200)
-	})
-
 	root := r.Group(ROOT_PATH)
 	{
-		root.GET("", func(c *gin.Context) {
+		root.GET(HEALTH_CHECK_PATH, func(c *gin.Context) {
 			c.Status(200)
 		})
 	}
