@@ -1,4 +1,4 @@
-module user-service
+module {{go_module_name.Value}}
 
 go 1.15
 

@@ -1,4 +1,4 @@
-package {{go_module_name.Value}}
+package main
 
 import (
 	"github.com/gin-gonic/gin"
