@@ -86,29 +86,34 @@ properties:
     canHaveOutputVarValue: false
   - name: repo_name
     type: string
-    description: Docker registry repository name
+    description: Docker registry repository name (leave empty if using local repository)
     required: true
     canHaveOutputVarValue: true
+    allowEmpty: true
   - name: image_pull_secret_name
     type: string
     description: Image pull secret name (leave empty if using local repository)
     required: true
     canHaveOutputVarValue: true
+    allowEmpty: true
   - name: registry_url
     type: string
-    description: Docker registry URL
+    description: Docker registry URL (leave empty if using local repository)
     canHaveOutputVarValue: true
     required: true
+    allowEmpty: true
   - name: registry_username
     type: string
-    description: Docker registry username
+    description: Docker registry username (leave empty if using local repository)
     canHaveOutputVarValue: true
     required: true
+    allowEmpty: true
   - name: registry_password
     type: password
-    description: Docker registry password
+    description: Docker registry password (leave empty if using local repository)
     canHaveOutputVarValue: true
     required: true
+    allowEmpty: true
   - name: configure_db_access
     type: boolean
     description: Configure database access
