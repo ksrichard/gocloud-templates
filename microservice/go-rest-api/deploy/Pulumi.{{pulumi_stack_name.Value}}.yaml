@@ -41,7 +41,7 @@ config:
   {{^image_pull_secret_name.IsPulumiOutput}}
   app:imagePullSecretName: "{{image_pull_secret_name.Value}}"
   {{/image_pull_secret_name.IsPulumiOutput}}
-  app:serviceHealthCheckPath: "{{service_path.Value}}/{{health_check_path.Value}}"
+  app:serviceHealthCheckPath: "{{health_check_path.Value}}"
   app:servicePort: {{service_port.Value}}
   app:useLocalRepo: {{use_local_repo.Value}}
   app:autoScalingEnabled: {{enable_auto_scaling.Value}}
