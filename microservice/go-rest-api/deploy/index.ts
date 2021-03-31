@@ -72,6 +72,7 @@ const autoScalingEnabled = config.requireBoolean("autoScalingEnabled");
 const serviceHealthCheckPath = config.require("serviceHealthCheckPath");
 const createIngress = config.requireBoolean("createIngress");
 
+{{#configure_db_access.Value}}
 // DB config
 {{#db_url.IsPulumiOutput}}
 const dbUrl = {{db_url.PulumiStackReferenceVar}}.requireOutput("{{db_url.PulumiOutputVar}}").apply(v => `${v}`);
@@ -108,8 +109,8 @@ const dbName = {{db_name.PulumiStackReferenceVar}}.requireOutput("{{db_name.Pulu
 export const dbName = config.require("dbName");
 {{/db_name.IsPulumiOutput}}
 
-
 let dsn = pulumi.interpolate `${dbUsername}:${dbPassword}@tcp(${dbUrl}:${dbPort})/${dbName}?charset=utf8mb4&parseTime=True&loc=Local`;
+{{/configure_db_access.Value}}
 
 // for local testing
 let imagePullPolicy = useLocalRepo ? "Never" : "Always";
@@ -178,10 +179,12 @@ if (useLocalRepo) {
                     name: "HEALTH_CHECK_PATH",
                     value: serviceHealthCheckPath
                 },
+                {{#configure_db_access.Value}}
                 {
                     name: "GORM_MYSQL_DSN",
                     value: dsn
                 }
+                {{/configure_db_access.Value}}
             ],
         }]
     });
@@ -228,10 +231,12 @@ if (useLocalRepo) {
                     name: "HEALTH_CHECK_PATH",
                     value: serviceHealthCheckPath
                 },
+                {{#configure_db_access.Value}}
                 {
                     name: "GORM_MYSQL_DSN",
                     value: dsn
                 }
+                {{/configure_db_access.Value}}
             ],
         }]
     });
